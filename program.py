@@ -17,6 +17,9 @@ class terminal_format():
     def gui_layout():
         pass
 
+    def clear_screen(self):
+        pass
+
 # A menu that the user can select options from
 @dataclass
 class Menu():
@@ -27,10 +30,16 @@ class Menu():
     def gui_layout(self):
         print(f"##### {self.title} #####\n1) {self.mode1}\n{QUIT}) {self.quit}")
 
+    def clear_screen(self):
+        os.system("cls")
+
 # Tic-tac-toe board
 class Board():
     def __init__(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+    def clear_screen(self):
+        os.system("cls")
 
     def gui_layout(self):
         print(f"+-----------+")
@@ -46,11 +55,11 @@ class Board():
             self.cells[pos] = token
 
     def validate_token(self, pos, token1, token2):
-        if self.cells[pos] == token1 or self.cells[pos] == token2 or self.cells[pos] == " ":
-            return True
-        else:
-            print("The chosen position is occupied, please choose a different position.")
+        if self.cells[pos] == token1 or self.cells[pos] == token2:
+            print("A token exists here.")
             return False
+        else:
+            return True
 
     # In future versions could turn this into a class and use composition
     def win_condition(self, token):
@@ -73,9 +82,9 @@ class Board():
 
 #### MAIN ####
 # Initialisation of terminal, menu and loop
-os.system("cls")
 menu = Menu("Tic-Tac-Toe", "New Game")
 val = ""
+menu.clear_screen()
 
 # Begins the game by giving the user some options, similar to a case statement
 while val != QUIT:
@@ -86,9 +95,8 @@ while val != QUIT:
     # Validates user input and does the correct actions according to the choice
     if val == "1":
         # Initialisation of variables and terminal
-        os.system("cls")
+        menu.clear_screen()
         winner = False
-
         gameBoard = Board()
         print(gameBoard.gui_layout())
         
@@ -96,6 +104,7 @@ while val != QUIT:
         while winner == False:
             validation = False
             ###Player 1
+            # Validation loop that checks if the position given is an empty cell
             while validation == False:
                 # Asks for user input so the token can be placed in the correct location.
                 play1 = input("Player 1, place your 'X' by entering 1-9: ")
@@ -103,14 +112,15 @@ while val != QUIT:
                 while play1 not in POS_3X3_GAME:
                     print("Please enter a number between 1 and 9.")
                     play1 = input("Player 1, place your 'X' by entering 1-9: ")
-                play1 = int(play1)
+
+                # Ensures that the position chosen corresponds to the correct list item                    
+                play1 = int(play1) - 1
+                # Ensures that a token is not in the chosen position
                 validation = gameBoard.validate_token(play1, CROSS, NAUGHT)
 
-            # Ensures that the position chosen corresponds to the correct list item
-            play1 = int(play1) - 1
             # Clears old game board and places the token in the position outlined by the player
             if play1 in range(0, 9):
-                os.system("cls")
+                gameBoard.clear_screen()
                 gameBoard.place_token(play1, CROSS)
                 print(gameBoard.gui_layout())           
                 
@@ -129,11 +139,11 @@ while val != QUIT:
                 while play2 not in POS_3X3_GAME:
                     print("Please enter a number between 1 and 9.")
                     play2 = input("Player 2, place your 'O' by entering 1-9: ")
-                play2 = int(play2)
+                
+                # Ensures that the position chosen corresponds to the correct list item
+                play2 = int(play2) -1
                 validation = gameBoard.validate_token(play2, CROSS, NAUGHT)         
 
-            # Ensures that the position chosen corresponds to the correct list item
-            play2 = int(play2) - 1
             # Clears old game board and places the token in the position outlined by the player
             if play2 in range(0, 9):
                 os.system("cls")
