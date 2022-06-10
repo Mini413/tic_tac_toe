@@ -8,7 +8,7 @@ POS_3X3_GAME = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 CROSS = "X"
 NAUGHT = "O"
 
-# Interface that provides a method to create a layout in the terminal
+# Interface that provides a method to create a layout in the terminal and clear the terminal
 class terminal_format():
     def __init__(self):
         super().__init__()
@@ -16,7 +16,8 @@ class terminal_format():
     @abstractmethod
     def gui_layout():
         pass
-
+    
+    @abstractmethod
     def clear_screen(self):
         pass
 
@@ -80,6 +81,15 @@ class Board():
         if self.cells[2] == token and self.cells[4] == token and self.cells[6] == token:
             return True
 
+    def draw_condition(self, token1, token2):
+        count = 0
+        for pos in range(0, 8):
+            print("counting: ", pos)
+            if self.cells[pos] == token1 or self.cells[pos] == token2:
+                count += 1
+                if count == 8:
+                    return True
+
 #### MAIN ####
 # Initialisation of terminal, menu and loop
 menu = Menu("Tic-Tac-Toe", "New Game")
@@ -129,6 +139,11 @@ while val != QUIT:
                 print("Player 1 (X) Wins!")
                 winner = True 
                 break
+            # Checks if the game has ended in a Draw!
+            elif gameBoard.draw_condition(NAUGHT, CROSS):
+                print("DRAW!")
+                winner = True
+                break
             
             validation = False
             ###Player 2
@@ -154,6 +169,7 @@ while val != QUIT:
             if gameBoard.win_condition(NAUGHT):
                 print("Player 2 (O) wins!")
                 winner == True
+
     #Ends the program
     elif val == QUIT:
         print("Thank you for playing!")
