@@ -1,5 +1,13 @@
+##########################
+##Tic-Tac-Toe
+##Authour: Oguzhan Mclaren https://github.com/Mini413
+##Version: 1.0.0
+##Last updated: 10/6/2022
+##########################
+
+#Libraries
 import os
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass
 
 # Global constants
@@ -18,15 +26,15 @@ class terminal_format():
         pass
     
     @abstractmethod
-    def clear_screen(self):
+    def clear_screen():
         pass
 
 # A menu that the user can select options from
 @dataclass
 class Menu():
-    title: str = "None"
-    mode1: str = "None"
-    quit: str = "Quit"
+    title: str
+    mode1: str 
+    quit: str
 
     def gui_layout(self):
         print(f"##### {self.title} #####\n1) {self.mode1}\n{QUIT}) {self.quit}")
@@ -89,16 +97,21 @@ class Board():
                 if count == 8:
                     return True
 
+# For future development, have a scoreboard for a game that will track the score throughout the game 
+# class scoreboard():
+#     def __init__(self):
+#         self.self = self
+
 #### MAIN ####
 # Initialisation of terminal, menu and loop
-menu = Menu("Tic-Tac-Toe", "New Game")
-val = ""
+menu = Menu("Tic-Tac-Toe", "New Game", "Quit")
+val = " "
 menu.clear_screen()
 
 # Begins the game by giving the user some options, similar to a case statement
 while val != QUIT:
     # Initialises the menu to the screen and asks for a user choice
-    print(menu.gui_layout())
+    menu.gui_layout()
     val = input("Please select an option: ")
     
     # Validates user input and does the correct actions according to the choice
@@ -107,7 +120,7 @@ while val != QUIT:
         menu.clear_screen()
         winner = False
         gameBoard = Board()
-        print(gameBoard.gui_layout())
+        gameBoard.gui_layout()
         
         # Begins the game loop
         while winner == False:
@@ -131,11 +144,11 @@ while val != QUIT:
             if play1 in range(0, 9):
                 gameBoard.clear_screen()
                 gameBoard.place_token(play1, CROSS)
-                print(gameBoard.gui_layout())           
+                gameBoard.gui_layout()          
                 
             # Check win condition of player 1 and finish the game
             if gameBoard.win_condition(CROSS):
-                print("Player 1 (X) Wins!")
+                print("\nPlayer 1 (X) Wins!\n")
                 winner = True 
                 break
             # Checks if the game has ended in a Draw!
@@ -162,11 +175,11 @@ while val != QUIT:
             if play2 in range(0, 9):
                 os.system("cls")
                 gameBoard.place_token(play2, NAUGHT)
-                print(gameBoard.gui_layout())
+                gameBoard.gui_layout()
             
             # Check win condition of player 2
             if gameBoard.win_condition(NAUGHT):
-                print("Player 2 (O) wins!")
+                print("\nPlayer 2 (O) wins!")
                 winner == True
 
     #Ends the program
