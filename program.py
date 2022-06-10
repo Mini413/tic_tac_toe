@@ -84,7 +84,6 @@ class Board():
     def draw_condition(self, token1, token2):
         count = 0
         for pos in range(0, 8):
-            print("counting: ", pos)
             if self.cells[pos] == token1 or self.cells[pos] == token2:
                 count += 1
                 if count == 8:
