@@ -124,8 +124,8 @@ while val != QUIT:
         
         # Begins the game loop
         while winner == False:
-            validation = False
             ###Player 1
+            validation = False
             # Validation loop that checks if the position given is an empty cell
             while validation == False:
                 # Asks for user input so the token can be placed in the correct location.
@@ -157,8 +157,8 @@ while val != QUIT:
                 winner = True
                 break
             
+            ###Player 2            
             validation = False
-            ###Player 2
             while validation == False:
                 # Asks for user input so the token can be placed in the correct location.
                 play2 = input("Player 2, place your 'O' by entering 1-9: ")
@@ -179,7 +179,7 @@ while val != QUIT:
             
             # Check win condition of player 2
             if gameBoard.win_condition(NAUGHT):
-                print("\nPlayer 2 (O) wins!")
+                print("\nPlayer 2 (O) wins!\n")
                 winner == True
 
     #Ends the program
